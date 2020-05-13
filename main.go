@@ -5,9 +5,13 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var addr = flag.String("addr", ":8080", "http service address")
@@ -26,6 +30,17 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	db, err := sql.Open("mysql", "root:root@tcp(54.180.82.84:3306)/web")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	stmt, err := db.Prepare("CREATE Table chat(id int NOT NULL AUTO_INCREMENT, message varchar(45), PRIMARY KEY (id));")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	_, err = stmt.Exec()
+	defer db.Close()
+
 	flag.Parse()
 	hub := newHub()
 	go hub.run()
@@ -33,7 +48,7 @@ func main() {
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
 	})
-	err := http.ListenAndServe(*addr, nil)
+	err = http.ListenAndServe(*addr, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
