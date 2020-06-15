@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: chat
-        image: chat:1.0.0
+        image: chat
         ports:
         - containerPort: 8080
               
