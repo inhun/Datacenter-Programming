@@ -5,7 +5,6 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"log"
 	"net/http"
@@ -29,10 +28,6 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	db, err := sql.Open("mysql", "root:root@tcp(54.180.82.84:3306)/web")
-	stmt, err := db.Prepare("CREATE Table chat(id int NOT NULL AUTO_INCREMENT, message varchar(45), PRIMARY KEY (id));")
-	_, err = stmt.Exec()
-	defer db.Close()
 
 	flag.Parse()
 	hub := newHub()

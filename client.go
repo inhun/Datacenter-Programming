@@ -60,8 +60,9 @@ func (c *Client) readPump() {
 		c.hub.unregister <- c
 		c.conn.Close()
 	}()
-	db, _ := sql.Open("mysql", "root:root@tcp(54.180.82.84:3306)/web")
-
+	db, _ := sql.Open("mysql", "root:root@tcp(localhost:3307)/web")
+	aaa, _ := db.Prepare("Create database if not exists web;")
+	_, _ = aaa.Exec()
 	stmt, _ := db.Prepare("CREATE Table if not exists chat(id int NOT NULL AUTO_INCREMENT, message varchar(45), PRIMARY KEY (id));")
 	_, _ = stmt.Exec()
 
