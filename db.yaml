@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-mysql
+      app: mysql
   template:
     metadata:
       labels:
-        app: my-mysql
+        app: mysql
     spec:
       containers:
       - name: mysql
