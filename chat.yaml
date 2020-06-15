@@ -9,14 +9,14 @@ spec:
     selector:
         matchLabels:
             app: my-chat
-        template:
-            metadata:
-                labels:
-                    app: my-chat
-            spec:
-                continers:
-                - name: chat
-                  image: chat:1.0.0
-                  ports:
-                  - containerPort: 8080
-                
+    template:
+        metadata:
+            labels:
+                app: my-chat
+        spec:
+            containers:
+            - name: chat
+              image: chat
+              ports:
+              - containerPort: 8080
+              
